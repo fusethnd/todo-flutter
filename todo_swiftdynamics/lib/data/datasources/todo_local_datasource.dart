@@ -27,8 +27,7 @@ class TodoLocalDatasourceImpl implements TodoLocalDataSource {
       final List<dynamic> jsonData = jsonDecode(contents);
       return jsonData.map((json) => TodoModel.fromJson(json)).toList();
     } catch (e) {
-      // throw Exception('Failed to load todos: $e');
-      return []; // Return empty list on error to avoid crashing the app
+      throw Exception('Failed to load todos: $e');
     }
   }
 

@@ -1,21 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_swiftdynamics/domain/repositories/todo_repository.dart';
 import '../../domain/entities/todo.dart';
-import '../../domain/usecases/get_todo.dart';
-import '../../domain/usecases/add_todo.dart';
-import '../../domain/usecases/update_todo.dart';
-import '../../domain/usecases/remove_todo.dart';
-import '../../data/repositories/todo_repository_impl.dart';
-import '../../data/datasources/todo_local_datasource.dart';
-
-final todoReposityryProvider = Provider<TodoRepository>((ref) {
-  return TodoRepositoryImpl(localDataSource: TodoLocalDatasourceImpl());
-});
-
-final getTodosProvider = Provider((ref) => GetTodos(ref.watch(todoReposityryProvider)));
-final addTodoProvider = Provider((ref) => AddTodo(ref.watch(todoReposityryProvider)));
-final updateTodoProvider = Provider((ref) => UpdateTodo(ref.watch(todoReposityryProvider)));
-final removeTodoProvider = Provider((ref) => RemoveTodo(ref.watch(todoReposityryProvider)));
+import 'usecase_providers.dart';
 
 class TodoListNotifier extends AsyncNotifier<List<Todo>> {
   @override
@@ -48,4 +33,4 @@ class TodoListNotifier extends AsyncNotifier<List<Todo>> {
   }
 }
 
-final todoListProvider = AsyncNotifierProvider<TodoListNotifier, List<Todo>>(() => TodoListNotifier());
+final todoListProvider = AsyncNotifierProvider<TodoListNotifier, List<Todo>>(TodoListNotifier.new);
