@@ -9,7 +9,6 @@ import '../../domain/usecases/sorting_todo.dart';
 import '../providers/filtered_todos_provider.dart';
 import '../providers/searching_provider.dart';
 import '../providers/sort_by_provider.dart';
-import '../providers/todo_list_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -25,7 +24,7 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           PopupMenuButton<SortBy>(
             initialValue: currentSortMode,
-            onSelected: (SortBy value) => ref.read(sortByProvider.notifier).state = value,
+            onSelected: (SortBy value) => ref.read(sortByProvider.notifier).updateSortBy(value),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<SortBy>>[
               const PopupMenuItem<SortBy>(
                 value: SortBy.date,
@@ -53,7 +52,7 @@ class HomeScreen extends ConsumerWidget {
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) => ref.read(searchingProvider.notifier).state = value,
+              onChanged: (value) => ref.read(searchingProvider.notifier).updateSearchQuery(value),
             ),
           ),
           Expanded(
@@ -76,8 +75,10 @@ class HomeScreen extends ConsumerWidget {
                           value: todo.status == TodoStatus.COMPLETED,
                           onChanged: (bool? value) {
                             final updatedTodo = Todo(
-                              id: todo.id, title: todo.title, description: todo.description,
-                              createdAt: DateTime.now(),
+                              id: todo.id,
+                              title: todo.title,
+                              description: todo.description,
+                              createdAt: todo.createdAt,
                               image: todo.image,
                               status: value == true ? TodoStatus.COMPLETED : TodoStatus.IN_PROGRESS,
                             );

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_swiftdynamics/data/models/todo_model.dart';
-import 'package:todo_swiftdynamics/domain/entities/todo.dart';
+import 'package:todo_flutter/data/models/todo_model.dart';
+import 'package:todo_flutter/domain/entities/todo.dart';
 
 void main() {
   final tDate = DateTime.utc(2026, 5, 5);

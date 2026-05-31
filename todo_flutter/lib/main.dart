@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo_swiftdynamics/presentation/screen/home_screen.dart';
+import 'package:todo_flutter/presentation/screen/home_screen.dart';
 
 void main() {
   runApp(
