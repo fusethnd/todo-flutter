@@ -1,4 +1,4 @@
-package com.example.todo_swiftdynamics
+package com.example.todo_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,6 @@
 {
-    "name": "todo_swiftdynamics",
-    "short_name": "todo_swiftdynamics",
+    "name": "todo_flutter",
+    "short_name": "todo_flutter",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
