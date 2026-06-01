@@ -10,6 +10,9 @@ import '../../core/image_converter.dart';
 import '../../domain/entities/todo.dart';
 import '../providers/todo_list_provider.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../core/constants/common_icons.dart';
+
 class TodoForm extends ConsumerStatefulWidget {
   final Todo? existingTodo;
 
@@ -137,67 +140,67 @@ class _TodoFormState extends ConsumerState<TodoForm> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            widget.existingTodo == null ? 'Create Task' : 'Edit Task',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
           TextField(
-            controller: _titleController,
-            maxLength: 100,
-            decoration: const InputDecoration(
-              labelText: 'Title *',
-              border: OutlineInputBorder(),
+              controller: _titleController,
+              cursorColor: Colors.grey,
+              autofocus: true,
+              maxLength: 100,
+              buildCounter: (context,
+                      {required currentLength, required isFocused, required maxLength}) =>
+                  null, // ซ่อน Character Counter ที่เดิมอยู่ด้านล่างขวา
+              style: const TextStyle(fontSize: 18),
+              decoration: const InputDecoration(
+                hintText: 'What world you like to do?', // Placeholder ใหม่
+                hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
+                border: InputBorder.none,
+              ),
             ),
-          ),
           const SizedBox(height: 12),
           TextField(
             controller: _descController,
+            cursorColor: Colors.grey,
             maxLines: 3,
             decoration: const InputDecoration(
-              labelText: 'Description',
-              border: OutlineInputBorder(),
+              hintText: 'Description',
+              hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+              border: InputBorder.none,
+              ),
             ),
-          ),
           const SizedBox(height: 16),
           
-          // 🌟 3. ส่วน UI สำหรับแสดงและเลือกรูปภาพ
-          if (_imageBase64 != null) ...[
-            Stack(
-              alignment: Alignment.topRight,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.memory(
-                    base64Decode(_imageBase64!),
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.cancel, color: Colors.white, shadows: [Shadow(blurRadius: 2)]),
-                  onPressed: _removeImage,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-          ] else ...[
-            OutlinedButton.icon(
-              onPressed: _pickImage,
-              icon: const Icon(Icons.image),
-              label: const Text('Add Image'),
-            ),
-            const SizedBox(height: 16),
-          ],
-
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
-              ),
+              // SvgPicture.asset(CommonIcons.galleryExport),
+              if (_imageBase64 != null) ...[
+                Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.memory(
+                        base64Decode(_imageBase64!),
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.cancel, color: Colors.white, shadows: [Shadow(blurRadius: 2)]),
+                      onPressed: _removeImage,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+              ] else ...[
+                OutlinedButton.icon(
+                  onPressed: _pickImage,
+                  icon: SvgPicture.asset(CommonIcons.galleryExport),
+                  label: const Text('Add Image'),
+                ),
+                const SizedBox(height: 16),
+              ],
+              Spacer(),
               const SizedBox(width: 16),
               ElevatedButton(
                 onPressed: _handleSave,

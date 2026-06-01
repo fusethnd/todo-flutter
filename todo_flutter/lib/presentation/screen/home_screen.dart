@@ -127,6 +127,9 @@ class HomeScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => TodoForm.show(context),
         child: const Icon(Icons.add),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+        foregroundColor: Colors.red,
+        backgroundColor: Colors.white,
       ),
     );
   }
