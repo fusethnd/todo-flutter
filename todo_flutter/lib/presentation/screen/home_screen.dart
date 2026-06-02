@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:todo_flutter/core/constants/image_resource.dart';
 import '../../domain/entities/todo.dart';
 import '../providers/todo_list_provider.dart';
 import '../widgets/todo_form.dart';
@@ -20,7 +22,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TODO List'),
+        title: Container(child: Row(children: [SvgPicture.asset(ImageResource.edit), const SizedBox(width: 8), const Text('To-do List')])),
         actions: [
           PopupMenuButton<SortBy>(
             initialValue: currentSortMode,
@@ -45,12 +47,26 @@ class HomeScreen extends ConsumerWidget {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            padding: const EdgeInsets.all(16),
             child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Search title or description...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: 'What\'s task you looking for?',
+                hintStyle: const TextStyle(color: Colors.grey, fontSize: 16),
+                filled: true,
+                fillColor: Colors.grey.shade100,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: SvgPicture.asset(
+                    ImageResource.searchNormal,
+                    width: 16,
+                    height: 16,
+                    colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn), // คุมสีไอคอนให้เป็นสีเทา
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(48),
+                  borderSide: BorderSide.none,
+                ),
               ),
               onChanged: (value) => ref.read(searchingProvider.notifier).updateSearchQuery(value),
             ),

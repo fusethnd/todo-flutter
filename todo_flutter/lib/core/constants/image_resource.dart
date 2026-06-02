@@ -1,5 +1,5 @@
 
-class CommonIcons {
+class ImageResource {
   static const String _basePath = 'assets';
 
   static const String arrowUp = '$_basePath/arrow-up.svg';

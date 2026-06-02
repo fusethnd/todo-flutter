@@ -11,7 +11,7 @@ import '../../domain/entities/todo.dart';
 import '../providers/todo_list_provider.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../core/constants/common_icons.dart';
+import '../../core/constants/image_resource.dart';
 
 class TodoForm extends ConsumerStatefulWidget {
   final Todo? existingTodo;
@@ -193,18 +193,20 @@ class _TodoFormState extends ConsumerState<TodoForm> {
                 ),
                 const SizedBox(height: 16),
               ] else ...[
-                OutlinedButton.icon(
-                  onPressed: _pickImage,
-                  icon: SvgPicture.asset(CommonIcons.galleryExport),
-                  label: const Text('Add Image'),
-                ),
+                SvgPicture.asset(ImageResource.galleryExport),
                 const SizedBox(height: 16),
               ],
               Spacer(),
               const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: _handleSave,
-                child: const Text('Save'),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.orangeAccent,
+                  borderRadius: BorderRadius.circular(48),
+                ),
+                child: IconButton(
+                  onPressed: _handleSave,
+                  icon: const Icon(Icons.arrow_upward, color: Colors.white),
+                ),
               ),
             ],
           ),
