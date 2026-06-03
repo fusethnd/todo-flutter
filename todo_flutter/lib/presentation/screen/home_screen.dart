@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo_flutter/core/constants/image_resource.dart';
 import '../../domain/entities/todo.dart';
@@ -25,6 +26,7 @@ class HomeScreen extends ConsumerWidget {
         title: Container(child: Row(children: [SvgPicture.asset(ImageResource.edit), const SizedBox(width: 8), const Text('To-do List')])),
         actions: [
           PopupMenuButton<SortBy>(
+            icon: SvgPicture.asset(ImageResource.more),
             initialValue: currentSortMode,
             onSelected: (SortBy value) => ref.read(sortByProvider.notifier).updateSortBy(value),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<SortBy>>[
@@ -80,12 +82,20 @@ class HomeScreen extends ConsumerWidget {
                   itemCount: todos.length,
                   itemBuilder: (context, index) {
                     final todo = todos[index];
-                    return Dismissible(
+                    return Slidable(
                       key: Key(todo.id),
-                      background: Container(color: Colors.red, child: const Icon(Icons.delete, color: Colors.white)),
-                      onDismissed: (direction) {
-                        ref.read(todoListProvider.notifier).removeTodo(todo.id);
-                      },
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        extentRatio: 0.20,
+                        children: [
+                          CustomSlidableAction(
+                            onPressed: (context) => ref.read(todoListProvider.notifier).removeTodo(todo.id),
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            child: SvgPicture.asset(ImageResource.trash, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                          ),
+                        ],
+                      ),
                       child: ListTile(
                         leading: Checkbox(
                           value: todo.status == TodoStatus.COMPLETED,
