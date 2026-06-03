@@ -97,20 +97,23 @@ class HomeScreen extends ConsumerWidget {
                         ],
                       ),
                       child: ListTile(
-                        leading: Checkbox(
-                          value: todo.status == TodoStatus.COMPLETED,
-                          onChanged: (bool? value) {
+                        leading: GestureDetector(
+                          onTap: () {
                             final updatedTodo = Todo(
                               id: todo.id,
                               title: todo.title,
                               description: todo.description,
                               createdAt: todo.createdAt,
                               image: todo.image,
-                              status: value == true ? TodoStatus.COMPLETED : TodoStatus.IN_PROGRESS,
+                              status: todo.status == TodoStatus.COMPLETED ? TodoStatus.IN_PROGRESS : TodoStatus.COMPLETED,
                             );
                             ref.read(todoListProvider.notifier).updateExistingTodo(updatedTodo);
                           },
-                        ),
+                          child: Container(
+                            child: todo.status == TodoStatus.COMPLETED 
+                            ? SvgPicture.asset(ImageResource.checkboxFilled)
+                            : SvgPicture.asset(ImageResource.checkboxEmpty),)
+                          ),
                         title: Text(
                           todo.title,
                           style: TextStyle(decoration: todo.status == TodoStatus.COMPLETED ? TextDecoration.lineThrough : null),
